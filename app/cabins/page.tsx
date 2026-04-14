@@ -1,13 +1,19 @@
-import CabinCard from "@/app/_components/CabinCard";
-import { getCabins } from "../_lib/data-service";
+import { Suspense } from "react";
+import CabinList from "@/app/_components/CabinList";
+import Spinner from "@/app/_components/Spinner";
+
+// Caching and revalidation settings for the page
+// revalidate number of seconds, default is 0 (no caching, always re-render on request)
+
+// export const revalidate = 0; // This page will be rendered on every request, ensuring the latest data is always displayed.
+
+export const revalidate = 3600; // Incremental Static Regeneration: This page will be revalidated and updated at most once every 1 hour to ensure the latest data is always displayed. This allows for a balance between performance and freshness of data, ensuring that users see relatively up-to-date information without the overhead of server-side rendering on every request.
 
 export const metadata = {
   title: "Cabins",
 };
 
-export default async function Page() {
-  const cabins = await getCabins();
-
+export default function Page() {
   return (
     <div>
       <h1 className="text-4xl mb-5 text-accent-400 font-medium">
@@ -22,13 +28,9 @@ export default async function Page() {
         Welcome to paradise.
       </p>
 
-      {cabins.length > 0 && (
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 xl:gap-14">
-          {cabins.map((cabin) => (
-            <CabinCard cabin={cabin} key={cabin.id} />
-          ))}
-        </div>
-      )}
+      <Suspense fallback={<Spinner />}>
+        <CabinList />
+      </Suspense>
     </div>
   );
 }

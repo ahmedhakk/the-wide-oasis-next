@@ -3,11 +3,12 @@ import { Josefin_Sans } from "next/font/google";
 
 import "@/app/_styles/globals.css";
 import Header from "@/app/_components/Header";
+import type { Metadata } from "next";
 // import Uploader from "@/app/_data/Uploader";
 
 const josefin = Josefin_Sans({ subsets: ["latin"], display: "swap" });
 
-export const metadata = {
+export const metadata: Metadata = {
   // title: "The Wild Oasis",
   title: {
     template: "%s | The Wild Oasis",
