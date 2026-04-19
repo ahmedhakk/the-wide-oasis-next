@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import CabinList from "@/app/_components/CabinList";
 import Spinner from "@/app/_components/Spinner";
+import Filter from "@/app/_components/Filter";
 
 // Caching and revalidation settings for the page
 // revalidate number of seconds, default is 0 (no caching, always re-render on request)
@@ -13,7 +14,12 @@ export const metadata = {
   title: "Cabins",
 };
 
-export default function Page() {
+type SearchParams = Record<string, string | undefined>;
+// { [key: string]: string | string[] | undefined } // { capacity: [ 'all', 'mid' ], price: '500' } => ?capacity=all&capacity=mid&price=500
+
+export default function Page({ searchParams }: { searchParams: SearchParams }) {
+  const filter: string = searchParams?.capacity ?? "all";
+
   return (
     <div>
       <h1 className="text-4xl mb-5 text-accent-400 font-medium">
@@ -28,8 +34,15 @@ export default function Page() {
         Welcome to paradise.
       </p>
 
-      <Suspense fallback={<Spinner />}>
-        <CabinList />
+      <div className="mb-8 flex justify-end">
+        <Filter />
+      </div>
+
+      <Suspense
+        fallback={<Spinner />}
+        key={filter} // the key here to make the suspense know that the data has changed and show the spinner while the new data is being fetched as it by default will not show the spinner if the component is already rendered once, but with the key it will know that the data has changed and show the spinner while the new data is being fetched.
+      >
+        <CabinList filter={filter} />
       </Suspense>
     </div>
   );
