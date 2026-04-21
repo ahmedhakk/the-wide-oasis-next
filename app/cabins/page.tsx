@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import CabinList from "@/app/_components/CabinList";
 import Spinner from "@/app/_components/Spinner";
 import Filter from "@/app/_components/Filter";
+import ReservationReminder from "../_components/ReservationReminder";
 
 // Caching and revalidation settings for the page
 // revalidate number of seconds, default is 0 (no caching, always re-render on request)
@@ -43,6 +44,8 @@ export default function Page({ searchParams }: { searchParams: SearchParams }) {
         key={filter} // the key here to make the suspense know that the data has changed and show the spinner while the new data is being fetched as it by default will not show the spinner if the component is already rendered once, but with the key it will know that the data has changed and show the spinner while the new data is being fetched.
       >
         <CabinList filter={filter} />
+
+        <ReservationReminder />
       </Suspense>
     </div>
   );

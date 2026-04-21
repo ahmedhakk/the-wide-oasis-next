@@ -4,6 +4,7 @@ import { Josefin_Sans } from "next/font/google";
 import "@/app/_styles/globals.css";
 import Header from "@/app/_components/Header";
 import type { Metadata } from "next";
+import { ReservationProvider } from "./_components/ReservationContext";
 // import Uploader from "@/app/_data/Uploader";
 
 const josefin = Josefin_Sans({ subsets: ["latin"], display: "swap" });
@@ -50,7 +51,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           */}
           <main className="max-w-7xl mx-auto w-full">
             {/* <Uploader /> */}
-            {children}
+            <ReservationProvider>{children}</ReservationProvider>
           </main>
         </div>
 

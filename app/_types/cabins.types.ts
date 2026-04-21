@@ -7,3 +7,11 @@ export interface ICabin {
   image: string;
   description?: string;
 }
+
+export interface ISettings {
+  id: number;
+  minBookingLength: number;
+  maxBookingLength: number;
+  maxGuestsPerBooking: number;
+  breakfastPrice: number;
+}
